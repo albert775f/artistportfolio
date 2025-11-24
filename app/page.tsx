@@ -4,10 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getContent } from "@/lib/content";
 import Link from "next/link";
 
-export default async function Home() {
-  const content = await getContent();
-
-  import { Metadata } from 'next';
+import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getContent();
@@ -22,6 +19,8 @@ const getYouTubeEmbedUrl = (url: string) => {
     return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
   };
 
+export default async function Home() {
+  const content = await getContent();
   const youtubeEmbedUrl = content.youtubeVideoUrl ? getYouTubeEmbedUrl(content.youtubeVideoUrl) : null;
 
   return (
