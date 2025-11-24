@@ -1,0 +1,213 @@
+'use client';
+
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { updateContentAction } from '@/app/actions/content';
+import type { Content } from '@/lib/content';
+
+export function AdminForm({ initialContent }: { initialContent: Content }) {
+  const [content, setContent] = useState(initialContent);
+  const [uploading, setUploading] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const handleFileUpload = async (file: File, field: 'artistPhoto' | 'albumCover' | 'songFile') => {
+    setUploading(true);
+    setMessage('Uploading...');
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.success && result.path) {
+        setContent(prev => ({ ...prev, [field]: result.path }));
+        setMessage(field + ' uploaded successfully!');
+      } else {
+        setMessage(result.error || 'Upload failed');
+      }
+    } catch (error) {
+      setMessage('Upload failed');
+    }
+
+    setUploading(false);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setMessage('Saving...');
+
+    const formData = new FormData();
+    Object.entries(content).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    const result = await updateContentAction(formData);
+
+    if (result.success) {
+      setMessage('Content updated successfully!');
+      setTimeout(() => setMessage(''), 3000);
+    } else {
+      setMessage(result.error || 'Failed to update');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {message && (
+        <div className="p-4 rounded-md bg-blue-900/50 text-blue-300">
+          {message}
+        </div>
+      )}
+
+      <Card className="bg-zinc-800 border-zinc-700">
+        <CardHeader>
+          <CardTitle className="text-white">Basic Information</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">Artist Name</label>
+            <input
+              type="text"
+              value={content.artistName}
+              onChange={(e) => setContent(prev => ({ ...prev, artistName: e.target.value }))}
+              className="w-full px-4 py-2 rounded-md bg-zinc-700 border border-zinc-600 text-white"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">Subtitle</label>
+            <input
+              type="text"
+              value={content.subtitle}
+              onChange={(e) => setContent(prev => ({ ...prev, subtitle: e.target.value }))}
+              className="w-full px-4 py-2 rounded-md bg-zinc-700 border border-zinc-600 text-white"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">About Text</label>
+            <textarea
+              value={content.about}
+              onChange={(e) => setContent(prev => ({ ...prev, about: e.target.value }))}
+              className="w-full px-4 py-2 rounded-md bg-zinc-700 border border-zinc-600 text-white min-h-32"
+              required
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="bg-zinc-800 border-zinc-700">
+        <CardHeader>
+          <CardTitle className="text-white">Images & Media</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">Artist Photo</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'artistPhoto')}
+              className="w-full px-4 py-2 rounded-md bg-zinc-700 border border-zinc-600 text-white"
+              disabled={uploading}
+            />
+            {content.artistPhoto && (
+              <p className="text-sm text-zinc-400 mt-1">Current: {content.artistPhoto}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">Album Cover</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'albumCover')}
+              className="w-full px-4 py-2 rounded-md bg-zinc-700 border border-zinc-600 text-white"
+              disabled={uploading}
+            />
+            {content.albumCover && (
+              <p className="text-sm text-zinc-400 mt-1">Current: {content.albumCover}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">Song File (MP3)</label>
+            <input
+              type="file"
+              accept="audio/*"
+              onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0], 'songFile')}
+              className="w-full px-4 py-2 rounded-md bg-zinc-700 border border-zinc-600 text-white"
+              disabled={uploading}
+            />
+            {content.songFile && (
+              <p className="text-sm text-zinc-400 mt-1">Current: {content.songFile}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">Song Title</label>
+            <input
+              type="text"
+              value={content.songTitle}
+              onChange={(e) => setContent(prev => ({ ...prev, songTitle: e.target.value }))}
+              className="w-full px-4 py-2 rounded-md bg-zinc-700 border border-zinc-600 text-white"
+              required
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="bg-zinc-800 border-zinc-700">
+        <CardHeader>
+          <CardTitle className="text-white">Social Links</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">Spotify URL</label>
+            <input
+              type="url"
+              value={content.spotifyUrl}
+              onChange={(e) => setContent(prev => ({ ...prev, spotifyUrl: e.target.value }))}
+              className="w-full px-4 py-2 rounded-md bg-zinc-700 border border-zinc-600 text-white"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">YouTube URL</label>
+            <input
+              type="url"
+              value={content.youtubeUrl}
+              onChange={(e) => setContent(prev => ({ ...prev, youtubeUrl: e.target.value }))}
+              className="w-full px-4 py-2 rounded-md bg-zinc-700 border border-zinc-600 text-white"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-zinc-300 mb-2">Instagram URL</label>
+            <input
+              type="url"
+              value={content.instagramUrl}
+              onChange={(e) => setContent(prev => ({ ...prev, instagramUrl: e.target.value }))}
+              className="w-full px-4 py-2 rounded-md bg-zinc-700 border border-zinc-600 text-white"
+              required
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Button type="submit" size="lg" className="w-full" disabled={uploading}>
+        Save All Changes
+      </Button>
+    </form>
+  );
+}
