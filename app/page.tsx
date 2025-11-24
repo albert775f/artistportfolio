@@ -52,13 +52,13 @@ export default async function Home() {
           {(youtubeEmbedUrl || content.songFile) && (
             <Card className="bg-zinc-800/50 border-zinc-700 mb-8">
               <CardContent className="p-6">
-                <h2 className="text-xl md:text-2xl font-bold mb-4 text-center">Latest Track</h2>
+                <h2 className="text-xl md:text-2xl font-bold mb-4 text-center text-white">Latest Track</h2>
                 <div className="flex flex-col md:flex-row items-center gap-4">
                   <div className="w-32 h-32 md:w-40 md:h-40 relative rounded-lg overflow-hidden flex-shrink-0">
                     <Image src={content.albumCover} alt={content.songTitle} fill className="object-cover" />
                   </div>
                   <div className="flex-1 w-full">
-                    <h3 className="text-lg md:text-xl font-semibold mb-3 text-center md:text-left">{content.songTitle}</h3>
+                    <h3 className="text-lg md:text-xl font-semibold mb-3 text-center md:text-left text-white">{content.songTitle}</h3>
                     {youtubeEmbedUrl ? (
                       <div className="aspect-video w-full rounded-lg overflow-hidden">
                         <iframe width="100%" height="100%" src={youtubeEmbedUrl} title={content.songTitle} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full"></iframe>
@@ -77,7 +77,7 @@ export default async function Home() {
 
           <Card className="bg-zinc-800/50 border-zinc-700 mb-12">
             <CardContent className="p-6 md:p-8">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4 text-center">About</h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 text-center text-white">About</h2>
               <p className="text-base md:text-lg text-zinc-300 leading-relaxed">{content.about}</p>
             </CardContent>
           </Card>

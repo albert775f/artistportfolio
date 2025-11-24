@@ -9,7 +9,7 @@ export default async function ImpressumPage() {
     <div className="min-h-screen bg-gradient-to-b from-zinc-900 to-black text-white">
       <div className="max-w-4xl mx-auto px-6 py-16">
         <Link href="/">
-          <Button variant="outline" className="mb-8">← Zurück zur Startseite</Button>
+          <Button variant="outline" className="mb-8 text-black hover:text-black">← Zurück zur Startseite</Button>
         </Link>
         <div className="prose prose-invert prose-zinc prose-headings:text-white prose-p:text-zinc-300 prose-li:text-zinc-300 prose-strong:text-white max-w-none" dangerouslySetInnerHTML={{ __html: content.impressum }} />
       </div>
