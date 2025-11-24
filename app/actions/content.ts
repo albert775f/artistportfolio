@@ -13,9 +13,12 @@ const contentSchema = z.object({
   albumCover: z.string(),
   songFile: z.string(),
   songTitle: z.string().min(1, 'Song title is required'),
+  youtubeVideoUrl: z.string(),
   spotifyUrl: z.string().url('Must be a valid URL'),
   youtubeUrl: z.string().url('Must be a valid URL'),
   instagramUrl: z.string().url('Must be a valid URL'),
+  datenschutz: z.string().min(1, 'Datenschutz is required'),
+  impressum: z.string().min(1, 'Impressum is required'),
 });
 
 export async function updateContentAction(formData: FormData) {
@@ -29,9 +32,12 @@ export async function updateContentAction(formData: FormData) {
     albumCover: formData.get('albumCover') as string,
     songFile: formData.get('songFile') as string,
     songTitle: formData.get('songTitle') as string,
+    youtubeVideoUrl: formData.get('youtubeVideoUrl') as string,
     spotifyUrl: formData.get('spotifyUrl') as string,
     youtubeUrl: formData.get('youtubeUrl') as string,
     instagramUrl: formData.get('instagramUrl') as string,
+    datenschutz: formData.get('datenschutz') as string,
+    impressum: formData.get('impressum') as string,
   };
   
   try {
