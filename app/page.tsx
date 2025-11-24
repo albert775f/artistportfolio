@@ -7,7 +7,17 @@ import Link from "next/link";
 export default async function Home() {
   const content = await getContent();
 
-  const getYouTubeEmbedUrl = (url: string) => {
+  import { Metadata } from 'next';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getContent();
+  return {
+    title: `${content.artistName} - ${content.subtitle}`,
+    description: content.about.substring(0, 160),
+  };
+}
+
+const getYouTubeEmbedUrl = (url: string) => {
     const videoId = url.match(/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/user\/\S+|\/ytscreeningroom\?v=|\/sandalsResorts#\w\/\w\/.*\/))([^\/&\?]{10,12})/)?.[1];
     return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
   };

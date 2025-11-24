@@ -5,6 +5,12 @@ import { Button } from '@/components/ui/button';
 import { AdminForm } from '@/components/admin/admin-form';
 import Link from 'next/link';
 
+
+export const metadata = {
+  title: 'Admin Dashboard - Artist Portfolio',
+  description: 'Content Management System',
+};
+
 export default async function AdminPage() {
   await requireAuth();
 

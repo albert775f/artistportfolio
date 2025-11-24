@@ -2,6 +2,16 @@ import { getContent } from "@/lib/content";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
+import { Metadata } from 'next';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getContent();
+  return {
+    title: `Impressum - ${content.artistName}`,
+    description: 'Impressum',
+  };
+}
+
 export default async function ImpressumPage() {
   const content = await getContent();
 

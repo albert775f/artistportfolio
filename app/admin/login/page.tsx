@@ -41,3 +41,9 @@ export default async function LoginPage() {
     </div>
   );
 }
+export const metadata = {
+  title: 'Login - Artist Portfolio',
+  description: 'Admin Login',
+};
+
+
