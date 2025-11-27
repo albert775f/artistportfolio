@@ -59,7 +59,7 @@ export default async function Home() {
           </div>
 
           {(youtubeEmbedUrl || content.songFile) && (
-            <Card className="bg-zinc-800/50 border-zinc-700 mb-8">
+            <Card className="bg-zinc-800/50 border-zinc-700 mb-6">
               <CardContent className="p-6">
                 <h2 className="text-xl md:text-2xl font-bold mb-4 text-center text-white">Latest Track</h2>
                 <div className="flex flex-col md:flex-row items-center gap-4">
