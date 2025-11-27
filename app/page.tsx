@@ -34,10 +34,8 @@ export default async function Home() {
             <h1 className="text-xl md:text-7xl font-bold mb-1 bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
               {content.artistName}
             </h1>
-            <p className="text-sm md:text-2xl text-zinc-400 font-light tracking-wide">
-              {content.subtitle}
-            </p>
-          </div>
+            <p className="text-sm md:text-xl text-zinc-400 mb-4">{content.subtitle}</p>
+
             <div className="flex flex-wrap gap-3 justify-center mb-12">
               <Button asChild variant="outline" size="default" className="bg-green-600 hover:bg-green-700 text-white border-green-600">
                 <a href={content.spotifyUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
