@@ -55,8 +55,6 @@ export default async function Home() {
                   Instagram
                 </a>
               </Button>
-                </a>
-              </Button>
             </div>
           </div>
 
