@@ -27,15 +27,17 @@ export default async function Home() {
     <div className="min-h-screen bg-gradient-to-b from-zinc-900 to-black text-white">
       <section className="px-6 py-16">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="mb-6 relative w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-white/20">
+          <div className="text-center mb-4">
+            <div className="mb-2 relative w-16 h-16 md:w-32 md:h-32 mx-auto rounded-full overflow-hidden border-2 md:border-4 border-white/20">
               <Image src={content.artistPhoto} alt={content.artistName} fill className="object-cover" priority />
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold mb-3 bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+            <h1 className="text-xl md:text-7xl font-bold mb-1 bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
               {content.artistName}
             </h1>
-            <p className="text-lg md:text-xl text-zinc-400 mb-8">{content.subtitle}</p>
-
+            <p className="text-sm md:text-2xl text-zinc-400 font-light tracking-wide">
+              {content.subtitle}
+            </p>
+          </div>
             <div className="flex flex-wrap gap-3 justify-center mb-12">
               <Button asChild variant="outline" size="default" className="bg-green-600 hover:bg-green-700 text-white border-green-600">
                 <a href={content.spotifyUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
